@@ -1,0 +1,256 @@
+/* glenberman.com — "Classical" design system, production build.
+   Editorial, book-like: color as stroke (never fill), hairline rules,
+   justified body copy. All values come from the tokens below. */
+
+/* — fonts (self-hosted, SIL Open Font License) — */
+@font-face {
+  font-family: "Cormorant Garamond";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("fonts/CormorantGaramond-var.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Lora";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("fonts/Lora-var.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Lora";
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/Lora-italic.woff2") format("woff2");
+}
+
+/* — tokens — */
+:root {
+  --color-bg: #f3f2f2;
+  --color-surface: #eae9e9;
+  --color-text: #201f1d;
+  --color-accent: #b68235;      /* warm gold — stroke only: underlines, headings */
+  --color-accent-700: #7d5411;
+  --color-neutral-700: #605d5d;
+  --color-neutral-800: #444141;
+  --color-divider: color-mix(in srgb, #201f1d 16%, transparent);
+
+  --font-heading: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Lora", Georgia, serif;
+}
+
+/* — base — */
+*, *::before, *::after { box-sizing: border-box; }
+
+/* safety net against accidental sideways scroll. `clip` (not `hidden`)
+   leaves overflow-y visible, so it doesn't create a scroll container that
+   would break the sticky title or its scroll-driven animation. */
+html { overflow-x: clip; }
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+}
+
+/* Soft fade-in on load; skipped for reduced-motion visitors. */
+@media (prefers-reduced-motion: no-preference) {
+  body { animation: fade-in 0.4s ease-out; }
+  @keyframes fade-in { from { opacity: 0; } }
+}
+
+main {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 96px 32px 80px;
+}
+
+a { color: var(--color-text); }
+a:hover { color: var(--color-accent-700); }
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+
+/* Default link treatment: a soft gold wash sitting under the baseline,
+   sweeping up to a full highlight on hover. No underlines. */
+main a {
+  text-decoration: none;
+  background-image: linear-gradient(
+    color-mix(in srgb, var(--color-accent) 28%, transparent),
+    color-mix(in srgb, var(--color-accent) 28%, transparent));
+  background-repeat: no-repeat;
+  background-size: 100% 0.32em;
+  background-position: 0 100%;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  transition: background-size 0.18s ease, color 0.18s ease;
+}
+main a:hover {
+  color: var(--color-accent-700);
+  background-size: 100% 100%;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main a { transition: none; }
+}
+
+/* — masthead — */
+main { position: relative; }
+
+/* Sticky title: as you scroll, the h1 itself shrinks and settles into a
+   slim header bar pinned to the top. CSS scroll-driven animation, no
+   JavaScript; browsers without animation-timeline support just get the
+   normal static title (and no pinned header). */
+@supports (animation-timeline: scroll()) {
+  h1 {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    /* Opaque page-coloured backing: invisible against the ground, but keeps
+       content from scrolling up through the pinned title. */
+    background: var(--color-bg);
+    animation: title-shrink linear both;
+    animation-timeline: scroll();
+    animation-range: 0px 220px;
+  }
+  @keyframes title-shrink {
+    to {
+      font-size: 17px;
+      letter-spacing: 0.02em;
+      padding: 13px 0;
+    }
+  }
+}
+
+/* Full portrait, centered above the title. It scrolls away with the page,
+   leaving the sticky title pinned at the top. */
+.portrait {
+  display: block;
+  width: 300px;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto 30px;
+}
+
+h1 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 40px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.12;
+}
+
+.focus {
+  margin: 26px 0 0;
+  font-family: var(--font-heading);
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.roles {
+  margin: 18px 0 0;
+  font-size: 15.5px;
+  line-height: 1.7;
+  text-align: justify;
+  color: var(--color-neutral-700);
+}
+
+/* — sections — */
+section {
+  margin-top: 60px;
+  border-top: 1px solid var(--color-divider);
+  padding-top: 24px;
+}
+section + section { margin-top: 52px; }
+
+h2 {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-accent-700);
+}
+
+/* — publications — */
+.pub-list {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.pub-list li {
+  font-size: 14.5px;
+  line-height: 1.7;
+  text-align: justify;
+  color: var(--color-neutral-800);
+  /* Hanging indent: runover lines tuck in, author names stay on the left edge. */
+  padding-left: 1.4em;
+  text-indent: -1.4em;
+}
+.pub-list strong { font-weight: 600; color: var(--color-text); }
+.pub-list a.pdf { color: var(--color-accent-700); }
+
+.more { margin: 20px 0 0; font-size: 14.5px; }
+
+/* Placeholder entries — delete once real content is in. */
+.placeholder { font-style: italic; color: var(--color-neutral-700); }
+
+/* — projects — */
+.project-list {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+.project-list li {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--color-neutral-800);
+}
+
+/* — footer — */
+footer {
+  margin-top: 60px;
+  border-top: 1px solid var(--color-divider);
+  padding-top: 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: baseline;
+  font-size: 14px;
+  color: var(--color-neutral-700);
+}
+footer a {
+  color: var(--color-neutral-700);
+  text-decoration: none;
+}
+/* push the link group to the right edge; email stays left */
+footer a:first-of-type { margin-left: auto; }
+footer a:hover { color: var(--color-accent-700); }
+footer a::after { content: "\2009\2197"; font-size: 11px; }  /* thin space + ↗ */
+
+/* — small screens: justified text gets gappy at narrow measures — */
+@media (max-width: 480px) {
+  .roles, .pub-list li { text-align: left; }
+}
+
+/* — print: black on white, clean margins, no link washes — */
+@media print {
+  body { background: #fff; color: #000; animation: none; }
+  h1 { position: static; animation: none; background: none; }
+  .portrait { display: none; }
+  main { max-width: 100%; padding: 0; }
+  main a, footer a { color: #000; background: none; }
+  h2, .pub-list a.pdf { color: #000; }
+  .roles, .pub-list li, .project-list li, footer { color: #000; }
+}
