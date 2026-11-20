@@ -128,6 +128,16 @@ main { position: relative; }
    leaving the sticky title pinned at the top. */
 .portrait {
   display: block;
+  width: 420px;
+  max-width: 100%;
+  aspect-ratio: 1;
+  margin: 0 auto 30px;
+  touch-action: pan-y;
+}
+
+/* Plain photo, shown only when JavaScript is off. */
+.portrait-fallback {
+  display: block;
   width: 300px;
   max-width: 100%;
   height: auto;
@@ -248,7 +258,7 @@ footer a::after { content: "\2009\2197"; font-size: 11px; }  /* thin space + ↗
 @media print {
   body { background: #fff; color: #000; animation: none; }
   h1 { position: static; animation: none; background: none; }
-  .portrait { display: none; }
+  .portrait, .portrait-fallback { display: none; }
   main { max-width: 100%; padding: 0; }
   main a, footer a { color: #000; background: none; }
   h2, .pub-list a.pdf { color: #000; }

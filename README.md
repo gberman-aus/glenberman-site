@@ -1,7 +1,7 @@
 # glenberman.com
 
 Personal academic site for Glen Berman. The live page is plain static HTML and
-CSS — no JavaScript, no runtime dependencies. All the words live in one data
+CSS, plus one small script for the interactive portrait — no runtime dependencies. All the words live in one data
 file (`content.json`); a small script turns that into `index.html`, and a
 GitHub Action runs the script automatically on every change.
 
@@ -50,7 +50,8 @@ list — a project is just one Markdown string:
 - `build.py` — the script that turns `content.json` into `index.html`.
 - `styles.css` — design tokens and styles ("Classical" system: warm gold accent, hairline rules, justified body copy).
 - `fonts/` — self-hosted Cormorant Garamond and Lora (both SIL Open Font License).
-- `portrait.jpg` — the photo above the title (600px wide).
+- `stipple-portrait.js` — the interactive dotted portrait above the title (dots flee the pointer and fade over 60 seconds). The image it draws from is embedded in the file.
+- `portrait.jpg` — the plain photo, shown only to visitors with JavaScript turned off.
 - `favicon.svg` — browser-tab icon ("GB").
 - `CNAME` — tells GitHub Pages to serve the site at glenberman.com.
 - `.github/workflows/deploy.yml` — the GitHub Action that rebuilds and deploys.

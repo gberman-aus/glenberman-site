@@ -16,7 +16,8 @@
 </head>
 <body>
   <main>
-    <img class="portrait" src="portrait.jpg" alt="Portrait of Glen Berman" width="300" height="256">
+    <canvas id="portrait" class="portrait" role="img" aria-label="Stippled portrait of Glen Berman"></canvas>
+    <noscript><style>#portrait { display: none; }</style><img class="portrait-fallback" src="portrait.jpg" alt="Portrait of Glen Berman" width="300" height="256"></noscript>
     <h1>Glen Berman</h1>
     <p class="focus">I study things called Artificial Intelligence and their relationship to the production of scientific knowledge.</p>
     <p class="roles">I'm a Postdoctoral Research Fellow at <a href="https://arts.unimelb.edu.au/school-of-historical-and-philosophical-studies/our-research/metamelb" target="_blank" rel="noopener">MetaMelb</a>, University of Melbourne. I live in Melbourne (Naarm), Australia.</p>
@@ -66,5 +67,7 @@
       <a href="https://bsky.app/profile/glenberman.bsky.social" target="_blank" rel="noopener">Bluesky</a>
     </footer>
   </main>
+  <script src="stipple-portrait.js"></script>
+  <script>StipplePortrait(document.getElementById('portrait'));</script>
 </body>
 </html>
